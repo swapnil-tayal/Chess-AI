@@ -1,5 +1,6 @@
 import pygame as p
 import engine, ai
+import time
 
 height = 512
 width = 512
@@ -70,8 +71,13 @@ def main():
 
         if canAiLoad and ((not engine.isWhiteTurn and aiBlack) or (engine.isWhiteTurn and aiWhite)):
 
+            aiStartTime = int(round(time.time() * 1000))
             print("AI thinks....", end="")
+            
             aiMove = ai.getAiMove(movesPossible)
+            aiEndTime = int(round(time.time() * 1000))
+            print((aiEndTime-aiStartTime)/1000, end="s\n")
+
             if len(aiMove) != 0:
                 engine.move(aiMove, movesPossible)
                 engine.isWhiteTurn = not engine.isWhiteTurn
