@@ -68,7 +68,7 @@ def getAiMove(movesPossible):
     counter = 0
     random.shuffle(movesPossible)
     getMoveMinMax(movesPossible, engine.isWhiteTurn, depth, -1000, 1000)
-    print(counter)
+    print(counter, end=" ")
     return aiMove
 
 
@@ -96,8 +96,8 @@ def getMoveMinMax(movesPossible, isWhiteTurn, cDepth, alpha, beta):
                     aiMove = currMove
             if maxScore > alpha:
                 alpha = maxScore
-            # if alpha >= beta:
-            #     break
+            if alpha >= beta:
+                break
 
         return maxScore
 
@@ -118,8 +118,8 @@ def getMoveMinMax(movesPossible, isWhiteTurn, cDepth, alpha, beta):
                     aiMove = currMove
             if beta > minScore:
                 beta = minScore
-            # if alpha >= beta:
-            #     break
+            if alpha >= beta:
+                break
 
         return minScore
     
