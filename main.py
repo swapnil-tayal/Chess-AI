@@ -15,6 +15,7 @@ def loadPieces():
 
 def main():
 
+    global canAiLoad, aiBlack, aiWhite
     p.init()
     screen = p.display.set_mode((width, height))
     screen.fill(p.Color('white'))
@@ -25,6 +26,7 @@ def main():
     movesPossible = engine.validateMoves()
     aiBlack = True
     aiWhite = False
+    canAiLoad = False
 
     # print(movesPossible)
 
@@ -66,9 +68,7 @@ def main():
                 loading = False
 
 
-        setUpBoard(screen, blockSelected, movesPossible)  
-
-        if (not engine.isWhiteTurn and aiBlack) or (engine.isWhiteTurn and aiWhite):
+        if canAiLoad and ((not engine.isWhiteTurn and aiBlack) or (engine.isWhiteTurn and aiWhite)):
 
             print("AI thinks....", end="")
             aiMove = ai.getAiMove(movesPossible)
@@ -76,12 +76,16 @@ def main():
                 engine.move(aiMove, movesPossible)
                 engine.isWhiteTurn = not engine.isWhiteTurn
             movesPossible = engine.validateMoves()
+            canAiLoad = False
 
+
+        setUpBoard(screen, blockSelected, movesPossible)  
         p.display.flip()
 
 
 def setUpBoard(screen, blockSelected, movesPossible):
-
+    
+    global canAiLoad, aiBlack, aiWhite
     # checked board
     for i in range (blocks):
         for j in range (blocks):
@@ -92,7 +96,9 @@ def setUpBoard(screen, blockSelected, movesPossible):
                 color = (238, 238, 211)
             p.draw.rect(screen, color , p.Rect(j * blockSize, i * blockSize, blockSize, blockSize))
 
-    
+    if (engine.isWhiteTurn and aiWhite) or (not engine.isWhiteTurn and aiBlack):
+        canAiLoad = True
+
     # highlightSquares
     showMoves(screen, blockSelected, movesPossible)
 
