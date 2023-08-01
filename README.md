@@ -9,3 +9,8 @@ Chess AI using python
 <br>
 •	Tech stacks used – Python.
 <br>
+
+Click below for a sample VIDEO:
+
+[![Watch the video](https://img.youtube.com/vi/8fvHtI2E9Uo/sddefault.jpg)](https://youtu.be/8fvHtI2E9Uo)
+
