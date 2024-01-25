@@ -54,7 +54,7 @@ piecePositionScores = {"wn": knightScores, "bn": knightScores[::-1],
                        "wr": rookScores,   "br": rookScores[::-1],
                        "wp": pawnScores,   "bp": pawnScores[::-1]}
 
-depth = 3
+depth = 3 
 
 def randomMove(movesPossible):
     if (len(movesPossible) == 0):
@@ -79,6 +79,7 @@ def getMoveMinMax(movesPossible, isWhiteTurn, cDepth, alpha, beta):
     if cDepth == 0:
         return boardScore(engine.board)
 
+    # white will always try to maximize its score value
     if isWhiteTurn:
         maxScore = -1000
         for currMove in movesPossible:
@@ -90,17 +91,23 @@ def getMoveMinMax(movesPossible, isWhiteTurn, cDepth, alpha, beta):
             moves.changePlayer()
             engine.undoMove()
 
+            # trying of maximize the score
             if score > maxScore:
                 maxScore = score
                 if cDepth == depth:
                     aiMove = currMove
             if maxScore > alpha:
                 alpha = maxScore
+                
+            # can say that's enough for current state, by keeping optimization in mind.
+            # But can increase the diffrence(alpha - beta), and get more better 
+            # move, with respect to future move.
             if alpha >= beta:
                 break
 
         return maxScore
 
+    # black will always try to minimize its score value
     else:
         minScore = 1000
         for currMove in movesPossible:
@@ -112,6 +119,7 @@ def getMoveMinMax(movesPossible, isWhiteTurn, cDepth, alpha, beta):
             moves.changePlayer()
             engine.undoMove()
 
+            # trying of minimize the score
             if score < minScore:
                 minScore = score
                 if cDepth == depth:
@@ -128,8 +136,10 @@ def boardScore(board):
 
     if engine.checkMate:
         if engine.isWhiteTurn:
+            # white's worst case
             return -1000
         else:
+            # black's worst case
             return 1000
 
     currentScore = 0
@@ -145,8 +155,10 @@ def boardScore(board):
             if piece[1] != 'k':
                 piecePosition = piecePositionScores[piece][i][j]
             if piece[0] == 'w':
+                # white will add
                 currentScore += pieceScores[piece[1]] + piecePosition
             elif piece[0] == 'b':
+                # black will sub
                 currentScore -= pieceScores[piece[1]] + piecePosition
 
     return currentScore

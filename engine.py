@@ -96,12 +96,14 @@ def validateMoves():
 
     for currMove in movesPossible:
 
+        # making move before: to check if this move can lead to check
         move(currMove, movesPossible)
         moves.changePlayer()
         opponentMoves = getMoves()
         moves.changePlayer()
         check = 0
 
+        # checking if oppMove can take my King
         for oppMove in opponentMoves:
             if isWhiteTurn:
                 if board[oppMove[1][0]][oppMove[1][1]] == 'wk':
@@ -111,6 +113,7 @@ def validateMoves():
                 if board[oppMove[1][0]][oppMove[1][1]] == 'bk':
                     check += 1
                     break
+        # not valid move
         if check == 0:
             validMoves.append(currMove)
         undoMove()
@@ -119,6 +122,7 @@ def validateMoves():
         moves.changeCheck(True)
 
     return validMoves
+
 
 def inCheck():
 

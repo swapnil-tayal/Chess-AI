@@ -29,8 +29,6 @@ def main():
     aiWhite = False
     canAiLoad = False
 
-    # print(movesPossible)
-
     while loading:
 
         # print(engine.isWhiteTurn)
@@ -38,6 +36,7 @@ def main():
 
             if e.type == p.MOUSEBUTTONDOWN:
                 
+                # getting current position
                 coordinates = p.mouse.get_pos()
                 col = coordinates[0] // blockSize
                 row = coordinates[1] // blockSize
@@ -68,7 +67,7 @@ def main():
             if e.type == p.QUIT:
                 loading = False
 
-
+        
         if canAiLoad and ((not engine.isWhiteTurn and aiBlack) or (engine.isWhiteTurn and aiWhite)):
 
             aiStartTime = int(round(time.time() * 1000))
